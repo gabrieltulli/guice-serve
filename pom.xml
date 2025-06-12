@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.tulli</groupId>
+    <artifactId>guice-serve</artifactId>
+    <version>1.0</version>
+    <packaging>war</packaging>
+
+    <properties>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <jetty.version>9.4.54.v20240208</jetty.version>
+        <guice.version>3.0</guice.version>
+        <port>10001</port>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.google.inject.extensions</groupId>
+            <artifactId>guice-servlet</artifactId>
+            <version>${guice.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.jersey.contribs</groupId>
+            <artifactId>jersey-guice</artifactId>
+            <version>1.19.4</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>${jetty.version}</version>
+                <configuration>
+                    <webApp>
+                        <contextPath>/guice</contextPath>
+                        <resourceBases>
+                            <baseResource>src/main/webapp</baseResource>
+                        </resourceBases>
+                    </webApp>
+                    <scanIntervalSeconds>0</scanIntervalSeconds>
+                    <httpConnector>
+                        <port>${port}</port>
+                        <idleTimeout>1000</idleTimeout>
+                    </httpConnector>
+                    <systemProperties>
+                        <systemProperty>
+                            <name>activejdbc.get.inference</name>
+                            <value>false</value>
+                        </systemProperty>
+                    </systemProperties>
+                    <jvmArgs>--add-exports java.base/sun.net.spi=ALL-UNNAMED</jvmArgs>
+                    <jvmArgs>--add-opens java.base/sun.net.spi=ALL-UNNAMED</jvmArgs>
+                    <jvmArgs>--add-opens java.base/java.util.regex=ALL-UNNAMED</jvmArgs>
+                    <jvmArgs>--add-opens java.base/java.net=ALL-UNNAMED</jvmArgs>
+                    <jvmArgs>--add-opens java.base/java.util=ALL-UNNAMED</jvmArgs>
+                    <jvmArgs>--add-opens java.base/java.lang=ALL-UNNAMED</jvmArgs>
+                    <jvmArgs>--add-opens java.base/java.lang.reflect=ALL-UNNAMED</jvmArgs>
+                    <jvmArgs>--add-opens java.base/java.io=ALL-UNNAMED</jvmArgs>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
